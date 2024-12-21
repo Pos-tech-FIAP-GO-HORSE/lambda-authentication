@@ -7,6 +7,31 @@
 *.dll
 *.so
 *.dylib
+*.rst
+*.txt
+*.json
+*.css
+*.yml
+*.iml
+*.xml
+*.pem
+*.css
+*.html
+*.index
+*.zip
+*.tex
+*.sty
+*.odt
+*.css
+*.backup
+
+
+
+
+
+
+
+
 
 # Test binary, built with `go test -c`
 *.test
