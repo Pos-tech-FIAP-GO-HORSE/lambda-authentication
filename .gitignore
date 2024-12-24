@@ -38,6 +38,9 @@ vendor/
 *.tfstate.backup
 *.plan
 
+# Ignore terraform lock file
+.terraform.lock.hcl
+
 # AWS-specific files (adjusted for your case)
 ../aws/dist/awscli/
 ../aws/dist/docutils/
