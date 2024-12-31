@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/Pos-tech-FIAP-GO-HORSE/lambda-authorization/internal/core/usecases"
 	"github.com/aws/aws-lambda-go/events"
+	"log"
 	"net/http"
 )
 
@@ -17,6 +18,7 @@ func NewAuthenticationHandler(validationUserUseCase *usecases.AuthorizerUseCase)
 }
 
 func (h *AuthenticationHandler) Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	log.Println("Chegou no Lambda...")
 	cpf := request.Headers["cpf"]
 	if cpf == "" {
 		return events.APIGatewayProxyResponse{
