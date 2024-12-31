@@ -83,3 +83,18 @@ resource "aws_lambda_permission" "allow_api_gateway" {
   principal     = "apigateway.amazonaws.com"
   function_name = aws_lambda_function.auth_lambda.function_name
 }
+
+resource "aws_cognito_user_pool" "authentication-cognito" {
+  name = "cpf-user-pool"
+
+  schema {
+    name                = "custom:cpf"
+    attribute_data_type = "String"
+    mutable             = true
+  }
+}
+
+resource "aws_cognito_user_pool_client" "authentication_client" {
+  name         = "authentication-client"
+  user_pool_id = aws_cognito_user_pool.authentication-cognito.id
+  }
