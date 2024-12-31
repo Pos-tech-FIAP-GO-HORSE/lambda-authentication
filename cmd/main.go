@@ -29,26 +29,22 @@ func main() {
 	cognitoClient := cognitoidentityprovider.New(sess)
 
 	userPoolID := os.Getenv("COGNITO_USER_POOL_ID")
+	log.Println("UserPool ID: %s", userPoolID)
 	if userPoolID == "" {
 		log.Fatal("COGNITO_USER_POOL_ID environment variable is not set")
 	}
 
-	log.Printf("UserPool ID: %s", userPoolID)
-
 	//service
 	log.Println("Inicializando o AuthenticationService...")
 	authService := service.NewAuthenticationService(cognitoClient, userPoolID)
-	log.Println("AuthenticationService initialized successfully.")
 
 	//use case
 	log.Println("Inicializando o NewAuthorizerUseCase...")
 	usecase := usecases.NewAuthorizerUseCase(authService)
-	log.Println("Inicializando o NewAuthorizerUseCase...")
 
 	//handler
 	log.Println("Inicializando o NewAuthenticationHandler...")
 	handler := handlers.NewAuthenticationHandler(usecase)
-	log.Println("Inicializando o NewAuthenticationHandler...")
 
 	log.Println("Iniciando o Lambda...")
 	lambda.Start(handler.Handler)

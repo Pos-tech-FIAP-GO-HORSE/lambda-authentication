@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/cognitoidentityprovider"
+	"log"
 )
 
 type AuthenticationService struct {
@@ -19,11 +20,13 @@ func NewAuthenticationService(cognitoClient *cognitoidentityprovider.CognitoIden
 }
 
 func (s *AuthenticationService) CheckUserExists(cpf string) (bool, error) {
+	log.Println("Chegou na function de check")
 	input := &cognitoidentityprovider.ListUsersInput{
 		Filter:     aws.String(fmt.Sprintf("cpf = \"%s\"", cpf)),
 		UserPoolId: aws.String(s.UserPoolID),
 	}
 
+	log.Println("Chamando o listUsers")
 	result, err := s.CognitoClient.ListUsers(input)
 	if err != nil {
 		return false, err
