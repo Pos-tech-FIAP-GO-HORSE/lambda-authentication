@@ -27,6 +27,9 @@
 # Output of the go coverage tool
 *.out
 
+# IDEs
+.idea/
+
 # Dependency directories (Go modules and vendor)
 go.work
 go.work.sum
