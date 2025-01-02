@@ -34,7 +34,6 @@ vendor/
 
 # Terraform files
 .terraform/
-.terraform.lock.hcl
 *.tfstate
 *.tfstate.backup
 *.plan
