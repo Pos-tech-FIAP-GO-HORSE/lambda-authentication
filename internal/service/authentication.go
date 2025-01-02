@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/cognitoidentityprovider"
-	"log"
 )
 
 type AuthenticationService struct {
@@ -20,13 +19,11 @@ func NewAuthenticationService(cognitoClient *cognitoidentityprovider.CognitoIden
 }
 
 func (s *AuthenticationService) CheckUserExists(cpf string) (bool, error) {
-	log.Println("Chegou na function de check")
 	input := &cognitoidentityprovider.ListUsersInput{
-		Filter:     aws.String(fmt.Sprintf("cpf = \"%s\"", cpf)),
+		Filter:     aws.String(fmt.Sprintf("username = \"%s\"", cpf)),
 		UserPoolId: aws.String(s.UserPoolID),
 	}
 
-	log.Println("Chamando o listUsers")
 	result, err := s.CognitoClient.ListUsers(input)
 	if err != nil {
 		return false, err
@@ -40,9 +37,12 @@ func (s *AuthenticationService) CreateUser(cpf string) error {
 		UserPoolId: aws.String(s.UserPoolID),
 		Username:   aws.String(cpf),
 		UserAttributes: []*cognitoidentityprovider.AttributeType{
-			{Name: aws.String("cpf"), Value: aws.String(cpf)},
+			{Name: aws.String("username"), Value: aws.String(cpf)},
 		},
 	}
 	_, err := s.CognitoClient.AdminCreateUser(input)
-	return err
+	if err != nil {
+		return fmt.Errorf("failed to create user in Cognito: %w", err)
+	}
+	return nil
 }

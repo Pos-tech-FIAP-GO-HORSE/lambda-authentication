@@ -31,6 +31,10 @@ resource "aws_iam_role_policy" "lambda_policy" {
         Action   = [
           "logs:CreateLogGroup",
           "logs:CreateLogStream",
+          "logs:PutLogEvents",
+          "cognito-idp:ListUsers",
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
           "logs:PutLogEvents"
         ]
         Resource = "*"
@@ -86,12 +90,6 @@ resource "aws_lambda_permission" "allow_api_gateway" {
 
 resource "aws_cognito_user_pool" "authentication-cognito" {
   name = "cpf-user-pool"
-
-  schema {
-    name                = "custom:cpf"
-    attribute_data_type = "String"
-    mutable             = true
-  }
 }
 
 resource "aws_cognito_user_pool_client" "authentication_client" {
