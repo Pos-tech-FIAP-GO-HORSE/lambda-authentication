@@ -1,9 +1,9 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/Pos-tech-FIAP-GO-HORSE/lambda-authorization/internal/core/usecases"
 	"github.com/aws/aws-lambda-go/events"
-	"log"
 	"net/http"
 )
 
@@ -18,12 +18,11 @@ func NewAuthenticationHandler(validationUserUseCase *usecases.AuthorizerUseCase)
 }
 
 func (h *AuthenticationHandler) Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	log.Println("Chegou no Lambda...")
 	cpf := request.Headers["cpf"]
 	if cpf == "" {
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusBadRequest,
-			Body:       "CPF header is missing",
+			Body:       `{"message": "CPF header is missing"}`,
 		}, nil
 	}
 	authenticationResult, err := h.ValidationUserUseCase.AuthenticateUser(cpf)
@@ -35,7 +34,7 @@ func (h *AuthenticationHandler) Handler(request events.APIGatewayProxyRequest) (
 	}
 	return events.APIGatewayProxyResponse{
 		StatusCode:      http.StatusOK,
-		Body:            authenticationResult,
+		Body:            fmt.Sprintf(`{"message": "%s"}`, authenticationResult),
 		IsBase64Encoded: false,
 		Headers: map[string]string{
 			"Content-Type": "application/json",
