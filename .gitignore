@@ -54,3 +54,23 @@ Thumbs.db
 
 # Logs and debug files
 *.log
+
+# AWS SDK and CLI files
+*.json
+*.yml
+*.txt
+*.rst
+*.css
+aws/
+
+
+# Ignore files related to AWS SDK / CLI distribution
+aws-cli.zip
+aws-sdk.zip
+
+# CSS and styling files
+*.css
+
+# Text files and documentation
+*.txt
+*.rst
